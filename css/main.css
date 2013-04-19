@@ -1,0 +1,96 @@
+
+.reveal .myHeading {
+    text-shadow: 0px 0px 6px;
+    rgba(0, 0, 0, 0.2);
+    color: #4F723A;
+    margin: 0 0 20px 0;
+    font-family: "League Gothic", Impact, sans-serif;
+    line-height: 0.9em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-shadow: none;
+    font-size: 3.77em;
+}
+
+.users .users-screenshot {
+	height: 50%;
+}
+
+.users .users-screenshot img {
+	border: 0px;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #AAA;
+	width: 80%;
+}
+
+.users .users-logo {
+	border: 0px;
+	box-shadow: 0 0 0 0;
+}
+
+.reveal .slides section .fragment.highlight-green.visible .value .string{
+    color: #17ff2e !important;
+    font-weight: bolder;
+}
+
+
+.reveal .slides section .fragment.highlight-blue.visible {
+    color: #1b91ff !important;
+    font-weight: bolder;
+}
+
+
+.reveal .slides section .fragment.highlight-red.visible {
+    color: #ff2c2d;
+    font-weight: bolder;
+}
+
+.reveal .slides section .highlightme-green {
+    font-weight: bolder !important;
+    color: #17ff2e !important;
+}
+
+.reveal .slides section .highlightme-grow {
+    font-weight: bolder !important;
+    font-size: 110%;
+}
+
+.reveal .slides section .highlightme-red {
+    color: #ff2c2d !important;
+    font-weight: bolder !important;
+}
+
+.reveal pre code {
+    max-height: 600px;
+}
+
+#enonic-title {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    height:30px;
+    width:100%;
+}
+
+.reveal .slides blockquote {
+    -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    #margin: 1.5em 0 1.5em -1.5em;
+    padding: .75em .5em .75em 1em;
+    background: #fff;
+    text-align: left;
+}
+
+
+.reveal .slides blockquote footer {
+    text-align: left;
+    color : blue;
+}
+
+.quotee {
+    text-align: left;
+    padding: .75em .5em .75em 1em;
+}
+
