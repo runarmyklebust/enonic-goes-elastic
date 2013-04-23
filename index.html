@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Enonic goes Elastic</title>
+
+    <meta name="description" content="Enonic goes Elasticsearch, an Elasticsearch overview">
+    <meta name="author" content="Runar Myklebust">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write('<link rel="stylesheet" href="css/print/' + ( window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper' ) +
+                       '.css" type="text/css" media="print">');
+    </script>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/highcharts/js/highcharts.js"></script>
+    <!--<script src="js/dataFetcher.js"></script>
+    <script src="js/main.js"/>
+         -->
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+
+
+</head>
+
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <section>
+            <h1>&nbsp;&nbsp;&nbsp;Enonic goes Elastic</h1>
+            <div class="users">
+                <p><img class="users-logo" src="img/ES_logo_big2.png"></p>
+            </div>
+            <p>&nbsp;</p>
+            <p>Runar Myklebust</p>
+            <p>Senior developer@Enonic</p>
+
+        </section>
+
+        <!-- INTRO -->
+
+        <section>
+            <h2>Hva er elasticsearch?</h2>
+            <UL>
+                <li>Open Source søke-platform (bygget på Lucene)</li>
+                <li>Skjemafritt og dokumentorientert</li>
+                <li>Distribuert og skalerbart ut av boksen</li>
+                <li>REST-API (JSON over HTTP) og Java-API</li>
+                <LI>Standalone eller embedded</LI>
+            </UL>
+        </section>
+
+
+        <section>
+            <section>
+                <h2>Noen som bruker det?</h2>
+            </section>
+            <section>
+                <div class="users">
+                    <p><img class="users-logo" src="img/su_logo.png"></p>
+                    <div class="users-screenshot">
+                        <img class="users-screenshot" src="img/stumble.png">
+                    </div>
+                    <p>StumbleUpon</p>
+                    <ul>
+                        <li>15 millioner brukere</li>
+                        <li>2,5 milliarder datapunkter pr uke</li>
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <div class="users">
+                    <p><img class="users-logo" src="img/foursquare_logo.png"></p>
+                    <div class="users-screenshot">
+                        <img class="users-screenshot" src="img/foursquare.png">
+                    </div>
+
+                    <ul>
+                        <li>50 millioner geo-lokasjoner</li>
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <div class="users">
+                    <p><img class="users-logo" src="img/logo_soundcloud.png"></p>
+                    <div class="users-screenshot">
+                        <img class="users-screenshot" src="img/soundcloud.png">
+                    </div>
+
+                    <ul>
+                        <li>80 millioner dokumenter</li>
+                        <li>175 qps</li>
+                    </ul>
+                </div>
+            </section>
+            <!--           <section>
+                           <div class="users">
+                               <p><img class="users-logo" src="img/fogcreek_logo.png"></p>
+                               <div class="users-screenshot">
+                                   <img class="users-screenshot" src="img/fogcreek.png">
+                               </div>
+
+                               <ul>
+                                   <li>100.000 repositories</li>
+                                   <li>40 milliarder linjer kode</li>
+                               </ul>
+                           </div>
+                       </section>  -->
+            <section>
+                <div class="users">
+                    <p><img class="users-logo" src="img/logo_github.png"></p>
+                    <div class="users-screenshot">
+                        <img class="users-screenshot" src="img/github.png">
+                    </div>
+                    <ul>
+                        <li>20TB data</li>
+                        <li>1.3 milliarder filer</li>
+                        <li>130 milliarder linjer kode</li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        <section>
+            <h2>Elasticsearch vs Solr</h2>
+            <p>&nbsp;</p>
+            <p class="fragment">"Alt" som kan gjøres i den ene kan gjøres i den andre</p>
+            <p class="fragment">Verden er litt enklere i elasticsearch?</p>
+
+
+        </section>
+
+        <section data-state="blackout">
+        </section>
+
+        <section>
+            <h2>Installasjon</h2>
+            <UL>
+                <LI>Last ned</LI>
+                <LI>Pakk ut</LI>
+                <LI>Start</LI>
+            </UL>
+
+            <p>&nbsp;</p>
+            <p><i>http://localhost:9200</i></p>
+
+        </section>
+        <section>
+            <section>
+            <h2>Ett minutt om API</h2>
+
+               <i> http://host[:port][/index[/type[/id]]][/_action[/params]] </i>
+
+            </section>
+            <section>
+
+                <h2>REST (via http)</h2>
+                <p>Indekser dokument</p>
+               <pre>
+                    <code class="bash">
+$ curl -XPUT 'http://localhost:9200/<span class="highlightme-red">twitter</span>/<span class="highlightme-green">tweet</span>/<span class="highlightme-grow">1</span>' -d '{
+    "user" : "haralokka",
+    "post_date" : "2013-04-18T09:05:00",
+    "message" : "show the elasticsearch REST API"
+}'
+                    </code>
+                </pre>
+                <p>Get</p>
+                <pre>
+                    <code>
+$ curl -XGET 'http://localhost:9200/twitter/tweet/1'
+                    </code>
+                </pre>
+            </section>
+            <section>
+                <h2>Java API</h2>
+                <p>Indekser dokument</p>
+                 <pre>
+                    <code class="java">
+IndexResponse response = client.prepareIndex("twitter", "tweet", "1")
+    .setSource(
+        jsonBuilder()
+        .startObject()
+            .field("user", "haralokka")
+            .field("postDate", new Date())
+            .field("message", "show the elasticsearch Java API")
+        .endObject()
+    )
+    .execute()
+    .actionGet();
+                    </code>
+                </pre>
+            </section>
+
+        </section>
+
+
+
+        <!-- Indeksering og spørringer -->
+
+        <section>
+            <h2>Lagring</h2>
+            <div class="fragment">
+                <blockquote>Alle som har forsøkt å oversette og lagre applikasjonsdomener i en relasjonsdatabase har på ett eller annet
+                    tidspunkt under prosessen vært på gråten
+                </blockquote>
+                <em style="display: inline-block; margin-top: 20px; margin-left: 400px">- Ukjent utvikler</em>
+            </div>
+
+         </section>
+
+    <section>
+            <h2>Mitt domene!</h2>
+             <pre>
+                    <code>
+{
+    "name": "Runar Myklebust",
+    "profession": "Senior developer@Enonic",
+    "email": "rmy@enonic.com",
+    "likes": [
+        "Elasticsearch",
+        "LSK",
+        "Surdeig",
+        "Kryssfiner"
+    ]
+}
+                    </code>
+                </pre>
+    </section>
+
+        <section>
+            <div>
+                <h2>Indekser meg</h2>
+                <pre>
+                    <code>
+$ curl -XPUT 'http://localhost:9200/enonic/<span class="highlightme-red">employee</span>/<span class="highlightme-green">rmy@enonic.com</span>?pretty=1' -d '{
+    "name": "Runar Myklebust",
+    "profession": "Senior developer@Enonic",
+    "likes": [
+        "Elasticsearch",
+        "LSK",
+        "Surdeig",
+        "Kryssfiner"
+    ]
+}'
+                    </code>
+                 </pre>
+            </div>
+
+        </section>
+
+        <section>
+            <div>
+                <h2>Indekser din nærmeste leder</h2>
+                <pre>
+                    <code>
+$ curl -XPUT 'http://localhost:9200/enonic/employee/mer@enonic.com?pretty=1' -d '{
+    "name": "Morten Eriksen",
+    "profession": "VP Product@Enonic",
+    "likes": [
+        "Hytta",
+        "Elbil",
+        "Glutenfritt",
+        "Kryssfiner"
+    ],
+    <span class="highlightme-green">"employees" : 15</span>
+}'
+                    </code>
+                 </pre>
+                <p>Nye felter svelges uten protest</p>
+            </div>
+
+        </section>
+
+        <section>
+            <h2>Mapping</h2>
+            <UL>
+                <LI>Definerer egenskaper ved dokumentene:</LI>
+                <UL>
+                    <LI>Typing</LI>
+                    <LI>Analysering (Lage tokens for fulltekst-søk)</LI>
+                    <LI>Filtrering (f.eks lowercase)</LI>
+                </UL>
+                <LI>Kan (bør) uttrykkes som regler</LI>
+            </UL>
+        </section>
+
+        <section>
+            <div>
+                <p>Indekser Pavel</p>
+                <pre>
+                    <code>
+$ curl -XPUT 'http://localhost:9200/enonic/employee/pmi@enonic.com?pretty=1' -d ' {
+    "name": "Pavel Milkevich",
+    "profession": "Senior Developer@SienceSoft",
+    "likes": [
+        "ExtJS",
+        "Futurama",
+        "Muse",
+        "Kryssfiner"
+    ],
+     <span class="highlightme-green">"location" : {
+        "lat" : 53.900184,
+        "lon" : 27.566586
+    }
+    </span>
+}'
+                    </code>
+                 </pre>
+            </div>
+
+        </section>
+
+        <section>
+            <h2>Definer "location" som type "geo_point"</h2>
+                <pre>
+                    <code>
+$ curl -XPUT localhost:9200/enonic/employee/_mapping?pretty=1 -d '{
+    "employee" : {
+        "properties" : {
+	        "location" : {
+	            "type" : "geo_point"
+	        }
+	    }
+    }
+}'
+                 </code>
+              </pre>
+        </section>
+ <!--
+        <section>
+            <section>
+            <h2>Analyzers</h2>
+                <ul>
+                    <li>Definerer hvordan innholder i felter skal behandles</li>
+                    <li>Eksempel</li>
+                        <ul>
+                            <li>lowercase</li>
+                            <li>fonetiske fraser</li>
+                            <li>synonymer</li>
+                            <li>stemming</li>
+                            <li>...</li>
+                        </ul>
+                    <li>Kan utføres ved lagring og ved spørring</li>
+                </ul>
+            </section>
+
+            <section>
+                <p>Eksempel fra 5.0</p>
+              <pre>
+                <code>
+{
+"fulltext_index": {
+    "type": "custom",
+    "filter": [
+        "standard",
+        "lowercase",
+        "asciifolding",
+        "fulltext_ngrams"
+    ],
+    "type": "custom",
+    "tokenizer": "standard"
+    },
+"fulltext_search": {
+    "type": "custom",
+    "filter": [
+        "standard",
+        "lowercase",
+        "asciifolding"
+    ],
+    "type": "custom",
+    "tokenizer": "standard"
+}
+                </code>
+              </pre>
+            </section>
+        </section>
+  -->
+        <section data-state="blackout">
+        </section>
+
+        <section>
+            <h1>Søk</h1>
+        </section>
+
+        <section>
+            <h2>term</h2>
+                <pre>
+                    <code contenteditable>
+$ curl -XGET localhost:9200/enonic/employee/_search?pretty=1 -d '{
+    "query" : {
+        "term": {
+            "name" : "runar"
+        }
+    }
+}'
+                    </code>
+                 </pre>
+            <!--
+                <pre class="fragment">
+                    <code contenteditable>
+$ curl -XGET localhost:9200/enonic/employee/_search?pretty=1 -d '{
+    "query" : {
+        "term": {
+            "likes" : "kryssfiner"
+        }
+    }
+}'
+                    </code>
+                 </pre> -->
+
+        </section>
+
+        <section>
+            <h2>query_string</h2>
+            <pre>
+                    <code contenteditable>
+$ curl -XGET localhost:9200/enonic/employee/_search?pretty=1 -d '{
+    "query" : {
+        "query_string" : {
+            "fields" :
+            [
+                "name^5",
+                "likes"
+            ],
+            "query" : "Runar OR Hytta"
+        }
+    }
+}'
+                    </code>
+                 </pre>
+        </section>
+
+        <section>
+            <h1>Filtere</h1>
+            <UL>
+                <li>Raskere enn queries</li>
+                <li>Ingen scoring</li>
+                <li>Filtere caches automatisk (dvs mange av de)</li>
+            </UL>
+        </section>
+
+        <section>
+            <h2>Geo distance</h2>
+            <p>Filtrer på distanse 20 mil radius fra Minsk</p>
+            <pre>
+                <code contenteditable>
+$ curl -XGET 'http://localhost:9200/enonic/employee/_search?pretty=1' -d '{
+        "query" : {
+        "filtered" : {
+                "query" : {
+                    "match_all" : {}
+                },
+                "filter" : {
+                "geo_distance" : {
+                    "distance" : "200km",
+                    "location" : {
+                            "lat" : 53,
+                            "lon" : 27
+                        }
+                    }
+                }
+            }
+        }
+}'
+                </code>
+            </pre>
+        </section>
+
+        <section data-state="blackout">
+        </section>
+
+        <section>
+            <h1>Fasetter</h1>
+               <p>Aggregerte data basert på query</p>
+               <ul>
+                   <li>Fasettert navigering</li>
+                   <li>Visualisering</li>
+               </ul>
+        </section>
+        <section>
+            <section>
+            <h2>Terms Facet</h2>
+               <pre>
+                    <code contenteditable>
+$ curl -XGET localhost:9200/enonic/employee/_search?pretty=1 -d '{
+    "facets": {
+        "Likes": {
+            "terms": {
+                "field": "likes",
+                "size" : 5
+            }
+        }
+    },
+    "query": {
+        "match_all": {}
+    },
+    "size" : 0
+}'
+                    </code>
+               </pre>
+        </section>
+           <!--
+            <section>
+
+                <div id="linecharts" style="width:100%; height:400px;">
+                    <script>
+                        $(function () {
+                            $('#linecharts').highcharts({
+                                title: {
+                                    text: "Likes"
+                                },
+                                chart: {
+                                    type: "bar"
+                                },
+                                xAxis: {
+                                    categories: ['kryssfiner', 'sushi', 'gangnamstyle', 'elbil', 'bacon' ]
+                                },
+                                plotOptions: {
+                                    series: {
+                                        allowPointSelect: true
+                                    }
+                                },
+                                series: [{
+                                    showInLegend: false,
+                                    data: [24,12,18,6,20]
+                                }]
+                            });
+
+                            $('#button').click(function() {
+                                var chart = $('#container').highcharts(),
+                                        selectedPoints = chart.getSelectedPoints();
+                                alert ('You selected '+ selectedPoints.length +' points');
+                            });
+                        });
+                    </script>
+                </div>
+            </section>
+            -->
+         </section>
+         <section>
+
+            <h2>date_histogram</h2>
+                <pre>
+                    <code class="json" contenteditable>
+{
+    "query" : {
+        "match_all" : {}
+    },
+    "facets" : {
+        "myHistogram" : {
+            "date_histogram" : {
+                "field" : "entry_time",
+                "interval" : "hour"
+            }
+        }
+    }
+}
+                    </code>
+            </pre>
+        </section>
+        <section>
+            <h2>geo_distance</h2>
+                <pre>
+                    <code>
+$ curl -XGET localhost:9200/enonic/employee/_search?pretty=1 -d '{
+    "query" : {
+        "match_all" : {}
+    },
+    "facets" : {
+        "Distance_to_minsk" : {
+            "geo_distance" : {
+                "location" : {
+                    "lat" : 53.9001,
+                    "lon" : 27.5665
+                },
+                "ranges" : [
+                    { "to" : 100 },
+                    { "from" : 100, "to" : 200 },
+                    { "from" : 200 }
+                ]
+            }
+        }
+    },
+    "size" : 0
+}'
+                    </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>Enonic CMS & elasticsearch</h2>
+        </section>
+
+        <section>
+            <section>
+                <h2>4.5</h2>
+
+                <div class="users-screenshot">
+                    <img class="users-screenshot" src="img/4_5.png">
+                </div>
+            </section>
+
+            <section>
+                <h2>4.5 Cluster</h2>
+
+                <div class="users-screenshot">
+                    <img class="users-screenshot" src="img/4_5_cluster.png">
+                </div>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>4.7</h2>
+
+                <div class="users-screenshot">
+                    <img class="users-screenshot" src="img/4_7.png">
+                </div>
+            </section>
+
+            <section>
+                <h2>4.7 Cluster</h2>
+
+                <div class="users-screenshot">
+                    <img class="users-screenshot" src="img/4_7_cluster.png">
+                </div>
+            </section>
+        </section>
+
+        <section>
+            <h2>Enonic WEM 5.0</h2>
+            <p>?</p>
+        </section>
+
+        <section>
+            <h2>EQL Fasetter</h2>
+                <UL>
+                    <LI>Ny parameter "facets" på datakilder</LI>
+                    <LI>Tar et sett fasett-definisjoner</LI>
+                    <LI>XML</LI>
+                </UL>
+        </section>
+
+        <section>
+            <p>Sample: Open issues per team@enonic.com</p>
+            <pre>
+                <code>
+&lt;datasource name="getContentByCategory"&gt;
+    &lt;parameter name="categoryKeys"&gt;2027&lt;/parameter&gt;
+    &lt;parameter name="levels"&gt;2&lt;/parameter&gt;
+    &lt;parameter name="query"&gt;
+                    data/status != 'closed' AND
+                    data.issue-type != '112853'
+    &lt;/parameter&gt;
+    <span class="highlightme-grow">&lt;parameter name="facets"&gt;</span>
+      &lt;facets&gt;
+        &lt;<span class="highlightme-green">terms</span> name="issues-by-team"&gt;
+          &lt;indexes&gt;data.assignee-team&lt;/indexes&gt;
+          &lt;count&gt;20&lt;/count&gt;
+        &lt;/terms&gt;
+      &lt;/facets&gt;
+    &lt;/parameter&gt;
+  &lt;/datasource&gt;
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h2>Supported facets</h2>
+            <UL>
+                <LI>Terms</LI>
+                <LI>Ranges</LI>
+                <LI>Histogram</LI>
+                <LI>Date Histogram</LI>
+                <LI>Terms Stats</LI>
+            </UL>
+        </section>
+
+        <section>
+            <h2>Edna goes elastic</h2>
+
+            <p>Timeføring i ny drakt</p>
+
+            <div class="fragment">
+                <div class="users">
+                    <div class="users-screenshot">
+                        <img class="users-screenshot" src="img/robots.png">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <H1>?</H1>
+        </section>
+
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            } },
+            { src: 'plugin/markdown/showdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } },
+            { src: 'plugin/notes/notes.js', async: true, condition: function () {
+                return !!document.body.classList;
+            } }
+            // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
